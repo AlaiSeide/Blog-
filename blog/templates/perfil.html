@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Meu Perfil{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <h2>Meu Perfil</h2>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ current_user.username }}</h5>
+        <p class="card-text">{{ current_user.email }}</p>
+        <p class="card-text"><small class="text-muted">Membro desde {{ current_user.member_since }}</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

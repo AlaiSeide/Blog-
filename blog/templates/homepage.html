@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Homepage
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  {% for post in posts %}
+  <div class="col-md-4">
+    <div class="card mb-4">
+      <img src="{{ post.image_url }}" class="card-img-top" alt="{{ post.title }}">
+      <div class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+        <p class="card-text">{{ post.description }}</p>
+        <p class="card-text"><small class="text-muted">Postado por {{ post.author }}</small></p>
+        <a href="{{ url_for('post_detail', post_id=post.id) }}" class="btn btn-primary">Leia mais</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
