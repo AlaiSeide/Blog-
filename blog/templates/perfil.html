@@ -10,7 +10,8 @@
       <div class="card-body">
         <h5 class="card-title">{{ current_user.username }}</h5>
         <p class="card-text">{{ current_user.email }}</p>
-        <p class="card-text"><small class="text-muted">Membro desde {{ current_user.member_since }}</small></p>
+        <p class="card-text"><small class="text-muted">Membro desde {{ current_user.member_since.strftime('%d/%m/%Y') }}</small></p>
+        <a href="{{ url_for('editar_perfil', usuario_id=current_user.id) }}">Editar Perfil</a>
       </div>
     </div>
   </div>

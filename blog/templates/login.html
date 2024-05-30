@@ -1,30 +1,38 @@
 {% extends 'base.html' %}
 
+
 {% block title %}
   Login
 {% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-6">
-    <h2>Login</h2>
-    <form method="POST" action="">
 
-      {{ form.csrf_token }}
+  <div class="container">
+    <div class="row justify-content-center">
+      <!-- Quando usamos col-md-4, estamos dizendo que em telas médias (≥768px) ou maiores, a coluna deve ocupar 4 colunas do total de 12, o que equivale a um terço da largura da linha. Para telas menores, a coluna ocupará automaticamente 100% da largura (a menos que se especifique de outra forma). -->
 
-      <div class="mb-3">
-          {{ form.email.label(class="form-label") }}
-          {{ form.email(class="form-control") }}
+      <!--Quer dizer que maior ou egual a 768px o formulario vai ocupar 6 da tenha, a minha tela tem 12 de tamanho-->
+      <div class="col col-sm-6 col-md-6">
+        <h1 class="text-center mt-5">Login</h1>
+        <form method="POST" action="">
+          {{ form.csrf_token }}
+
+          {% import 'macro_field.html' as macros %}
+
+          {{ macros.field(form.email) }}
+          {{ macros.field(form.senha) }}
+
+          {{ form.btn_login(class="btn btn-primary") }}
+
+          <p class="mb-5 mt-2">
+              Não tem conta?
+            <a href="{{ url_for('criar_conta') }}" style="color: #393f81;">Registar-se aqui
+            </a>
+          </p>
+        </form>
       </div>
-
-      <div class="mb-3">
-          {{ form.senha.label(class="form-label") }}
-          {{ form.senha(class="form-control") }}
-      </div>
-
-      {{ form.btn_login(class="btn btn-primary") }}
-
-    </form>
+    </div>
   </div>
-</div>
+
+
 {% endblock %}

@@ -1,0 +1,21 @@
+<!-- macros.html -->
+{% macro field(campo) %}
+
+    <div class="mb-3">
+        {{ campo.label(class="form-control-label") }}
+
+        {% if campo.errors %}
+            {{ campo(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+                {% for erro in campo.errors %}
+                    {{ erro }}
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ campo(class="form-control") }}
+        {% endif %}
+    </div>
+
+{% endmacro %}
+
+

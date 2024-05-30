@@ -1,37 +1,37 @@
 {% extends 'base.html' %}
-
+{% import 'macro_field.html' as macros %}
 {% block title %}
     Criar Conta
 {% endblock %}
 
 {% block content %}
+    
 
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2>Criar Conta</h2>
-            <form method="POST" action="">
-                {{ form.csrf_token }}
 
-                <div class="mb-3">
-                    {{ form.username.label(class="form-label") }}
-                    {{ form.username(class="form-control") }}
-                </div>
 
-                <div class="mb-3">
-                    {{ form.email.label(class="form-label") }}
-                    {{ form.email(class="form-control") }}
-                </div>
-                <div class="mb-3">
-                    {{ form.senha.label(class="form-label") }}
-                    {{ form.senha(class="form-control") }}
-                </div>
-                <div class="mb-3">
-                    {{ form.confirmar_senha.label(class="form-label") }}
-                    {{ form.confirmar_senha(class="form-control") }}
-                </div>
-                {{ form.btn_criar_conta(class="btn btn-primary") }}
 
-            </form>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center mt-4">Criar Conta</h1>
+                <form method="POST" action="">
+                    {{ form.csrf_token }}
+
+                    <!--O macro recebe cada campo do meu formulario-->
+                    {{ macros.field(form.username) }}
+                    {{ macros.field(form.email) }}
+                    {{ macros.field(form.senha) }}
+                    {{ macros.field(form.confirmar_senha) }}
+
+                    {{ form.btn_criar_conta(class="btn btn-primary") }}
+
+                    <p class="mb-5 mt-2">
+                        Ja tem uma conta?
+                      <a href="{{ url_for('login') }}" style="color: #393f81;">Faca Login
+                      </a>
+                    </p>
+                </form>
+            </div>
         </div>
     </div>
 

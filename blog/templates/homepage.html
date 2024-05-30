@@ -9,12 +9,13 @@
   {% for post in posts %}
   <div class="col-md-4">
     <div class="card mb-4">
-      <img src="{{ post.image_url }}" class="card-img-top" alt="{{ post.title }}">
+      
+      <img src="{{ url_for('static', filename='images/{}'.format(post.imagem)) }}" class="card-img-top" alt="{{ post.titulo }}">
       <div class="card-body">
-        <h5 class="card-title">{{ post.title }}</h5>
-        <p class="card-text">{{ post.description }}</p>
-        <p class="card-text"><small class="text-muted">Postado por {{ post.author }}</small></p>
-        <a href="{{ url_for('post_detail', post_id=post.id) }}" class="btn btn-primary">Leia mais</a>
+        <h5 class="card-title">{{ post.titulo }}</h5>
+        <p class="card-text">{{ post.conteudo[:100] }}...</p>
+        <p class="card-text"><small class="text-muted">Postado por {{ post.autor.username }}</small></p>
+        <a href="{{ url_for('detalhes_post', post_id=post.id) }}" class="btn btn-primary">Leia mais</a>
       </div>
     </div>
   </div>

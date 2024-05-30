@@ -1,9 +1,11 @@
 from blog import database, login_manager
 from flask_login import UserMixin
+from datetime import datetime, timezone
+from werkzeug.security import generate_password_hash, check_password_hash
 
 @login_manager.user_loader
 def load_user(user_id):
-    return Usuario.get(user_id)
+    return Usuario.query.get(int(user_id))
 
 class Usuario(database.Model, UserMixin):
 
@@ -14,9 +16,15 @@ class Usuario(database.Model, UserMixin):
     username = database.Column(database.String(80), unique=True, nullable=False)
     email = database.Column(database.String(120), unique=True, nullable=False)
     senha = database.Column(database.String(120), nullable=False)
-
+    member_since = database.Column(database.DateTime, nullable=False, default=datetime.now(timezone.utc))
     posts = database.relationship('Post', backref='autor', lazy=True)
 
+    def set_senha(self, senha):
+        self.senha_hash = generate_password_hash(senha)
+
+    def check_senha(self, senha):
+        return check_password_hash(self.senha_hash, senha)
+    
     def __repr__(self):
         return '<Usuario %r>' % self.username
 

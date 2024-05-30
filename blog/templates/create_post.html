@@ -6,20 +6,24 @@
 <div class="row justify-content-center">
   <div class="col-md-8">
     <h2>Criar Novo Post</h2>
-    <form method="POST" action="{{ url_for('create_post') }}" enctype="multipart/form-data">
+    <form method="POST" action="" enctype="multipart/form-data">
+      {{ form.csrf_token }}
       <div class="mb-3">
-        <label for="title" class="form-label">Título</label>
-        <input type="text" class="form-control" id="title" name="title" required>
+        {{ form.titulo.label(class="form-label") }}
+        {{ form.titulo(class="form-control") }}
       </div>
+
       <div class="mb-3">
-        <label for="description" class="form-label">Descrição</label>
-        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+        {{ form.descricao.label(class="form-label") }}
+        {{ form.descricao(class="form-control") }}
       </div>
+
       <div class="mb-3">
-        <label for="image" class="form-label">Imagem</label>
-        <input class="form-control" type="file" id="image" name="image" required>
+        {{ form.imagem.label(class="form-label") }}
+        {{ form.imagem(class="form-control") }}
       </div>
-      <button type="submit" class="btn btn-primary">Publicar</button>
+
+      {{ form.btn_criar_post(class="btn btn-primary") }}
     </form>
   </div>
 </div>

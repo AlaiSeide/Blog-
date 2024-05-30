@@ -4,7 +4,8 @@ from flask_login import LoginManager
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Blog.db'
-app.config['SECRET_KEY'] = '9b4f2d8050ae28c1b0354f4bd7aa8e62' 
+app.config['SECRET_KEY'] = '9b4f2d8050ae28c1b0354f4bd7aa8e62'
+app.config['UPLOAD_FOLDER'] = 'static/images'
 login_manager = LoginManager(app)
 database = SQLAlchemy(app)
 
