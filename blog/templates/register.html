@@ -8,7 +8,7 @@
     
 
 
-
+    <hr>
 
     <div class="container">
         <div class="row justify-content-center">
@@ -23,13 +23,14 @@
                     {{ macros.field(form.senha) }}
                     {{ macros.field(form.confirmar_senha) }}
 
-                    {{ form.btn_criar_conta(class="btn btn-primary") }}
+                    {{ form.btn_criar_conta(class="btn btn-warning") }}
 
                     <p class="mb-5 mt-2">
                         Ja tem uma conta?
-                      <a href="{{ url_for('login') }}" style="color: #393f81;">Faca Login
-                      </a>
+                        <a href="{{ url_for('login') }}" class="text-warning">Faca Login
+                        </a>
                     </p>
+
                 </form>
             </div>
         </div>

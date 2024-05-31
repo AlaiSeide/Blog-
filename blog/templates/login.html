@@ -22,11 +22,17 @@
           {{ macros.field(form.email) }}
           {{ macros.field(form.senha) }}
 
-          {{ form.btn_login(class="btn btn-primary") }}
+          
+          <div class="form-check">
+            {{ form.lembrar_dados.label(class="form-check-label") }}
+            {{ form.lembrar_dados(class="form-check-input") }}
+          </div>
+
+          {{ form.btn_login(class="btn btn-warning") }}
 
           <p class="mb-5 mt-2">
               Não tem conta?
-            <a href="{{ url_for('criar_conta') }}" style="color: #393f81;">Registar-se aqui
+            <a href="{{ url_for('criar_conta') }}" class="text-warning">Registar-se aqui
             </a>
           </p>
         </form>

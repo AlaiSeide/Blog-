@@ -1,7 +1,8 @@
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-          <a class="navbar-brand" href="{{ url_for('homepage') }}">My Blog</a>
+          <a href="{{ url_for('homepage') }}"><img src="{{ url_for('static', filename='images/logo/logo_meu_blog_small.png') }}" alt="" width="45"></a>
+          <a class="navbar-brand" href="{{ url_for('homepage') }}">Blog</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -9,20 +10,20 @@
             <ul class="navbar-nav ms-auto">
               {% if current_user.is_authenticated %}
                 <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('perfil') }}">Meu Perfil</a>
+                  <a class="nav-link" href="{{ url_for('perfil') }}">  <i class="bi bi-person-circle"></i> Meu Perfil</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('criar_post') }}">Criar Post</a>
+                  <a class="nav-link" href="{{ url_for('criar_post') }}"> <i class="bi bi-pencil-square"></i> Criar Post</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('sair') }}">Sair</a>
+                  <a class="nav-link" href="{{ url_for('sair') }}"> <i class="bi bi-box-arrow-right"></i> Sair</a>
                 </li>
               {% else %}
                 <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                  <a class="nav-link" href="{{ url_for('login') }}"> <i class="bi bi-box-arrow-in-right"></i> Login</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('criar_conta') }}">Criar Conta</a>
+                  <a class="nav-link" href="{{ url_for('criar_conta') }}"> <i class="bi bi-person-plus"></i> Criar Conta</a>
                 </li>
               {% endif %}
             </ul>

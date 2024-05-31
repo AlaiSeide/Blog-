@@ -15,13 +15,14 @@ class Usuario(database.Model, UserMixin):
     id = database.Column(database.Integer, primary_key=True)
     username = database.Column(database.String(80), unique=True, nullable=False)
     email = database.Column(database.String(120), unique=True, nullable=False)
-    senha = database.Column(database.String(120), nullable=False)
+    senha_hash = database.Column(database.String(120), nullable=False)
     member_since = database.Column(database.DateTime, nullable=False, default=datetime.now(timezone.utc))
     posts = database.relationship('Post', backref='autor', lazy=True)
 
     def set_senha(self, senha):
         self.senha_hash = generate_password_hash(senha)
 
+    # o parametro senha seria a senha do formulario, e self.senha_hash seria a senha criptografada que está no meu banco de dados
     def check_senha(self, senha):
         return check_password_hash(self.senha_hash, senha)
     

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField, SubmitField, TextAreaField
+from wtforms import StringField, PasswordField, EmailField, SubmitField, TextAreaField, BooleanField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length
 from .models import Usuario
@@ -24,6 +24,7 @@ class FormCriarConta(FlaskForm):
 class FormLogin(FlaskForm):
     email = EmailField('Email', validators=[DataRequired(), Email()])
     senha = PasswordField('Senha', validators=[DataRequired(), Length(6, 20)])
+    lembrar_dados = BooleanField('Lembrar dados')
     btn_login = SubmitField('Login')
 
 
@@ -47,7 +48,7 @@ class EditarPerfilForm(FlaskForm):
     confirmar_senha = PasswordField('Confirmar Nova Senha')
     submit = SubmitField('Salvar Alterações')
 
-        # funcao de validacao antes de mudar o email do usuario
+    # funcao de validacao antes de mudar o email do usuario
     def validate_email(self, email):
         """Essa função é usada para validar se um novo e-mail fornecido em um formulário de registro já está sendo usado por outro usuário. Se um usuário diferente já estiver registrado com o e-mail fornecido, uma mensagem de erro é gerada para informar ao usuário que ele deve fornecer um e-mail único.
         """
@@ -60,3 +61,13 @@ class EditarPerfilForm(FlaskForm):
             # Se um usuário com o mesmo e-mail é encontrado, lança uma exceção de validação com uma mensagem de erro.
             if usuario:
                 raise ValidationError('Já existe um usuário com esse E-mail. Por favor, cadastre outro E-mail.')
+            
+
+
+class FormEditPost(FlaskForm):
+    titulo = StringField('Titulo do Post', validators=[DataRequired()])
+    descricao = TextAreaField('Descrição', validators=[DataRequired()])
+    submit = SubmitField('Salvar Alterações')
+
+class DeleteForm(FlaskForm):
+    submit = SubmitField('Delete')

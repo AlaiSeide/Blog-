@@ -5,29 +5,25 @@
 {% endblock %}
    
 {% block content %}
-<div class="container mt-5">
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">Editar Perfil</h4>
-            </div>
-            <div class="card-body">
-                <form method="POST">
-                    {{ form.hidden_tag() }}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h4 class="mb-4 text-center">Editar Perfil</h4>
+                <div >
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
 
-                    {% import 'macro_field.html' as macros %}
+                        {% import 'macro_field.html' as macros %}
 
-                    {{ macros.field(form.username) }}
-                    {{ macros.field(form.email) }}
-                    {{ macros.field(form.senha) }}
-                    {{ macros.field(form.confirmar_senha) }}
-                   
-                    <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
-                </form>
+                        {{ macros.field(form.username) }}
+                        {{ macros.field(form.email) }}
+                        {{ macros.field(form.senha) }}
+                        {{ macros.field(form.confirmar_senha) }}
+                        
+                        <button type="submit" class="btn btn-warning">{{ form.submit.label.text }}</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-</div>
 {% endblock %}
