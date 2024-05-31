@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
 {% block titulo %}
+    Editar Post
 {% endblock %}
 
 {% block content %}
+
     <div class="content-section">
         <form method="POST" action="">
             {{ form.hidden_tag() }}
@@ -18,9 +20,10 @@
                     {{ form.descricao(class="form-control form-control-lg") }}
                 </div>
             </fieldset>
-            <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
+            <div class="form-group mt-2">
+                {{ form.submit(class="btn btn-outline-warning btn-sm") }}
             </div>
         </form>
     </div>
+
 {% endblock %}

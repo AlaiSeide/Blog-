@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container mt-5">
+        <h2 class="mb-4 text-center">Meus Posts</h2>
+        {% for post in posts %}
+            <div class="card mb-3 col-md-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.titulo }}</h5>
+                    <img src="{{ url_for('static', filename='images/{}'.format(post.imagem)) }}" alt="Imagem do Post" class="card-img-top">
+                    <p class="card-text">{{ post.conteudo[:200] }}{% if post.conteudo|length > 200 %}...{% endif %}</p>
+                    <a href="{{ url_for('detalhes_post', post_id=post.id) }}" class="btn btn-warning btn-sm">Ver Mais</a>
+                    <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn btn-secondary btn-sm">Editar</a>
+
+                    <!-- Botão para acionar o modal -->
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-post-id="{{ post.id }}">
+                        Excluir
+                    </button>
+                   
+                </div>
+            </div>
+        {% else %}
+            <p class="text-muted">Você ainda não criou nenhum post.</p>
+        {% endfor %}
+    </div>
+
+
+    <!-- Modal de confirmação -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Você tem certeza que deseja excluir este post?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form id="deletePostForm" method="POST" action="">
+                        {{ delete_form.hidden_tag() }}
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var confirmDeleteModal = document.getElementById('confirmDeleteModal');
+        confirmDeleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var postId = button.getAttribute('data-post-id');
+            var form = document.getElementById('deletePostForm');
+            form.action = '/post/' + postId + '/delete';
+        });
+    </script>
+{% endblock %}

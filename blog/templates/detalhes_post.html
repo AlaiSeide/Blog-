@@ -6,20 +6,29 @@ Detalhes do Post
 
 {% block content %}
     <div class="container mt-5">
-        <h1>{{ post.titulo }}</h1>
-        
-        <img src="{{ url_for('static', filename='images/{}'.format(post.imagem)) }}" alt="Imagem do Post" class="img-fluid" width="200px">
-        <p>{{ post.conteudo }}</p>
-        <p class="card-text"><small class="text-muted">Postado por {{ post.autor.username }}</small></p>
-        {% if post.autor == current_user %}
-            <div>
-                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('edit_post', post_id=post.id) }}">Edit</a>
-                <form method="POST" action="{{ url_for('delete_post', post_id=post.id) }}" style="display: inline;">
-                    {{ delete_form.hidden_tag() }}
-                    <button type="submit" class="btn btn-danger btn-sm mt-1 mb-1">Delete</button>
-                </form>
+        <div class="card mb-3 col-md-3">
+            <div class="card-body">
+                <!-- <img  class="rounded-circle mt-4"
+                alt="Circular Image" 
+                width="40" src="{{ url_for('static', filename='images/IMG_0868.png') }}"> -->
+                <h5 class="card-title">{{ post.titulo }}</h5>
+                
+                <img src="{{ url_for('static', filename='images/{}'.format(post.imagem)) }}" alt="Imagem do Post" class="card-img-top">
+                <p class="card-text">{{ post.conteudo }}</p>
+                <p class="card-text"><small class="text-muted">Postado por {{ post.autor.username }}</small></p>
+                {% if post.autor == current_user %}
+                   
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('edit_post', post_id=post.id) }}">Editar</a>
+                    <form method="POST" action="{{ url_for('delete_post', post_id=post.id) }}" style="display: inline;">
+                        {{ delete_form.hidden_tag() }}
+                        <button type="submit" class="btn btn-danger btn-sm mt-1 mb-1">Deletar</button>
+                    </form>
+                  
+                {% endif %}
+                <a href="{{ url_for('homepage') }}" class="btn btn-warning btn-sm mt-1 mb-1">Voltar</a>
+
             </div>
-        {% endif %}
-        <a href="{{ url_for('homepage') }}" class="btn btn-primary">Voltar</a>
+        </div>
+
     </div>
 {% endblock %}

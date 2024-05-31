@@ -6,28 +6,36 @@
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
+
           <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-              {% if current_user.is_authenticated %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('perfil') }}">  <i class="bi bi-person-circle"></i> Meu Perfil</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('criar_post') }}"> <i class="bi bi-pencil-square"></i> Criar Post</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('sair') }}"> <i class="bi bi-box-arrow-right"></i> Sair</a>
-                </li>
-              {% else %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('login') }}"> <i class="bi bi-box-arrow-in-right"></i> Login</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('criar_conta') }}"> <i class="bi bi-person-plus"></i> Criar Conta</a>
-                </li>
-              {% endif %}
-            </ul>
+              <ul class="navbar-nav ms-auto">
+                {% if current_user.is_authenticated %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('perfil') }}">  <i class="bi bi-person-circle"></i> Meu Perfil</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('my_posts') }}"> <i class="bi bi-journal"></i> Meus Posts</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('chat') }}">Chat</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('criar_post') }}"> <i class="bi bi-pencil-square"></i> Criar Post</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('sair') }}"> <i class="bi bi-box-arrow-right"></i> Sair</a>
+                  </li>
+                {% else %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login') }}"> <i class="bi bi-box-arrow-in-right"></i> Login</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('criar_conta') }}"> <i class="bi bi-person-plus"></i> Criar Conta</a>
+                  </li>
+                {% endif %}
+              </ul>
           </div>
+
         </div>
       </nav>
 </div>

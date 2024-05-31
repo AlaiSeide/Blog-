@@ -37,7 +37,7 @@ class FormLogin(FlaskForm):
 class FormCriarPost(FlaskForm):
     titulo = StringField('Titulo do Post', validators=[DataRequired()])
     descricao = TextAreaField('Descrição', validators=[DataRequired()])
-    imagem = FileField('Imagem da Post', validators=[FileAllowed(['jpg', 'png', 'jpeg', FileRequired()], 'Apenas arquivos .jpg e .png são permitidos.')])
+    imagem = FileField('Imagem da Post', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'webp', FileRequired()], 'Apenas arquivos .jpg e .png são permitidos.')])
     btn_criar_post = SubmitField('Publicar')
 
 
@@ -70,4 +70,14 @@ class FormEditPost(FlaskForm):
     submit = SubmitField('Salvar Alterações')
 
 class DeleteForm(FlaskForm):
-    submit = SubmitField('Delete')
+    submit = SubmitField('Deletar Post')
+
+class MessageForm(FlaskForm):
+    content = TextAreaField('Content', validators=[DataRequired()])
+    submit = SubmitField('Send')
+
+class LikeForm(FlaskForm):
+    submit = SubmitField('Like')
+
+class FollowForm(FlaskForm):
+    submit = SubmitField('Follow')

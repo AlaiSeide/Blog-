@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Chat</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Followed Users</h3>
+                <ul class="list-group">
+                    {% for user in followed_users %}
+                        <li class="list-group-item">
+                            <a href="{{ url_for('user_profile', username=user.username) }}">{{ user.username }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-8">
+                <h3>Messages</h3>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <form method="POST" action="{{ url_for('chat') }}">
+                            {{ form.hidden_tag() }}
+                            <div class="form-group">
+                                {{ form.content.label(class="form-control-label") }}
+                                {{ form.content(class="form-control form-control-lg") }}
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient_id">Recipient</label>
+                                <select id="recipient_id" name="recipient_id" class="form-control">
+                                    {% for user in followed_users %}
+                                        <option value="{{ user.id }}">{{ user.username }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                {{ form.submit(class="btn btn-primary") }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% for message in messages %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <p class="card-text">{{ message.content }}</p>
+                            <p class="card-text"><small class="text-muted">From: {{ message.sender.username }} To: {{ message.recipient.username }} on {{ message.timestamp }}</small></p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

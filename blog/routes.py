@@ -1,8 +1,8 @@
 from blog import app, database
 from flask import render_template, flash, redirect, url_for, request, abort
-from .forms import FormCriarConta, FormLogin, FormCriarPost, EditarPerfilForm, DeleteForm, FormEditPost
+from .forms import FormCriarConta, FormLogin, FormCriarPost, EditarPerfilForm, DeleteForm, FormEditPost, MessageForm
 from flask_login import login_user, logout_user, current_user, login_required
-from .models import Usuario, Post
+from .models import Usuario, Post, Message
 from werkzeug.utils import secure_filename
 import os
 
@@ -149,7 +149,7 @@ def edit_post(post_id):
     elif request.method == 'GET':
         form.titulo.data = post.titulo
         form.descricao.data = post.conteudo
-    return render_template('edit_post.html', title='Update Post', form=form, legend='Update Post')
+    return render_template('edit_post.html', title='Editar Post', form=form, legend='Editar Post')
 
 
 @app.route("/post/<int:post_id>/delete", methods=['POST'])
@@ -162,3 +162,79 @@ def delete_post(post_id):
     database.session.commit()
     flash('A sua Post foi apagada!', 'alert-success')
     return redirect(url_for('homepage'))
+
+
+
+@app.route("/my_posts")
+@login_required
+def my_posts():
+    posts = Post.query.filter_by(autor=current_user).all()
+    delete_form = DeleteForm()
+    return render_template('my_posts.html', posts=posts, delete_form=delete_form)
+
+
+@app.route("/user/<username>")
+@login_required
+def user_profile(username):
+    delete_form = DeleteForm()
+    user = Usuario.query.filter_by(username=username).first_or_404()
+    posts = Post.query.filter_by(autor=user).all()
+    return render_template('user_profile.html', user=user, posts=posts, delete_form=delete_form)
+
+
+
+@app.route("/follow/<username>")
+@login_required
+def follow(username):
+    user = Usuario.query.filter_by(username=username).first_or_404()
+    if user == current_user:
+        flash('You cannot follow yourself!', 'alert-danger')
+        return redirect(url_for('user_profile', username=username))
+    current_user.follow(user)
+    database.session.commit()
+    flash(f'You are now following {username}!', 'alert-success')
+    return redirect(url_for('user_profile', username=username))
+
+@app.route("/unfollow/<username>")
+@login_required
+def unfollow(username):
+    user = Usuario.query.filter_by(username=username).first_or_404()
+    if user == current_user:
+        flash('You cannot unfollow yourself!', 'alert-danger')
+        return redirect(url_for('user_profile', username=username))
+    current_user.unfollow(user)
+    database.session.commit()
+    flash(f'You have unfollowed {username}!', 'alert-success')
+    return redirect(url_for('user_profile', username=username))
+
+@app.route("/like/<int:post_id>")
+@login_required
+def like_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    current_user.like_post(post)
+    database.session.commit()
+    return redirect(url_for('homepage'))
+
+@app.route("/unlike/<int:post_id>")
+@login_required
+def unlike_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    current_user.unlike_post(post)
+    database.session.commit()
+    return redirect(url_for('homepage'))
+
+@app.route("/chat", methods=['GET', 'POST'])
+@login_required
+def chat():
+    form = MessageForm()
+    if form.validate_on_submit():
+        message = Message(content=form.content.data, sender=current_user, recipient=Usuario.query.get(request.form.get('recipient_id')))
+        database.session.add(message)
+        database.session.commit()
+        flash('Your message has been sent!', 'success')
+        return redirect(url_for('chat'))
+    followed_users = current_user.followed.all()
+    messages = Message.query.filter(
+        (Message.sender_id == current_user.id) | (Message.recipient_id == current_user.id)
+    ).order_by(Message.timestamp.desc()).all()
+    return render_template('chat.html', title='Chat', form=form, messages=messages, followed_users=followed_users)
