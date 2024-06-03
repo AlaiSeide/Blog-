@@ -60,6 +60,7 @@ class Usuario(database.Model, UserMixin):
             likes.c.user_id == self.id,
             likes.c.post_id == post.id).count() > 0
 
+
     def set_senha(self, senha):
         self.senha_hash = generate_password_hash(senha)
 

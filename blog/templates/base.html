@@ -3,10 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}My Blog{% endblock %}</title>
+
+  <title>
+      {% block title %}
+          My Blog
+      {% endblock %}
+  </title>
+
   <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo/favicon_meu_blog.ico') }}" type="image/x-icon">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- <link id="theme-style" rel="stylesheet" href="/static/css/light-theme.css"> -->
+
+  <!-- <script src="{{ url_for('static', filename='js/theme.js') }}" defer></script> -->
+  
   <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -27,6 +37,18 @@
         {% endif %}
     {% endwith %}
   </div>
+<!--   
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Meu Blog</a>
+    <div class="form-group">
+        <label for="theme-switch">Tema</label>
+        <select class="form-control" id="theme-switch">
+            <option value="auto">Auto</option>
+            <option value="light">Claro</option>
+            <option value="dark">Escuro</option>
+        </select>
+    </div>
+</nav> -->
 
   <div class="container mt-4">
     {% block content %}

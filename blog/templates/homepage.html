@@ -5,7 +5,9 @@
 {% endblock %}
 
 {% block content %}
+
   <div class="row">
+
       {% for post in posts %}
       <div class="col-md-3">
           <div class="card mb-4">
@@ -23,8 +25,10 @@
                   <a href="{{ url_for('detalhes_post', post_id=post.id) }}" class="btn btn-warning btn-sm">Leia mais</a>
               </div>
           </div>
-
       </div>
+
       {% endfor %}
   </div>
+
+
 {% endblock %}

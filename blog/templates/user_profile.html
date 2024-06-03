@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+
     <div class="container mt-5">
         <h1 class="mb-4">{{ user.username }}</h1>
+
         <div class="mb-4">
             {% if current_user.is_following(user) %}
                 <a href="{{ url_for('unfollow', username=user.username) }}" class="btn btn-warning">Unfollow</a>
@@ -10,19 +12,24 @@
                 <a href="{{ url_for('follow', username=user.username) }}" class="btn btn-primary">Follow</a>
             {% endif %}
         </div>
+
         <h2>Posts</h2>
+
         {% for post in posts %}
+
             <div class="card mb-3">
                 <div class="card-body">
                     <h5 class="card-title">{{ post.titulo }}</h5>
                     <p class="card-text">{{ post.conteudo }}</p>
+
                     {% if post.autor == current_user %}
-                        <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn btn-secondary">Edit</a>
+                        <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn btn-secondary">Editar</a>
                         <form method="POST" action="{{ url_for('delete_post', post_id=post.id) }}" style="display: inline;">
                             {{ delete_form.hidden_tag() }}
                             <button type="submit" class="btn btn-danger">Deletar</button>
                         </form>
                     {% endif %}
+
                     {% if not post.autor == current_user %}
                         {% if current_user.has_liked_post(post) %}
                             <a href="{{ url_for('unlike_post', post_id=post.id) }}" class="btn btn-danger">Unlike</a>
@@ -32,8 +39,10 @@
                     {% endif %}
                 </div>
             </div>
+
         {% else %}
             <p class="text-muted">This user has not posted anything yet.</p>
         {% endfor %}
     </div>
+
 {% endblock %}

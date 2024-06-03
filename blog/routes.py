@@ -6,6 +6,7 @@ from .models import Usuario, Post, Message
 from werkzeug.utils import secure_filename
 import os
 
+# pagina de homepage
 @app.route('/')
 def homepage():
     # ordenar os post do recentes para mais antigos order_by(Post.id.desc())
@@ -13,6 +14,8 @@ def homepage():
     return render_template('homepage.html', posts=posts)
 
 
+
+# pagina de fazer login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = FormLogin()
@@ -25,6 +28,7 @@ def login():
         # buscando um usuario no meu banco de dados que tem esse email, digitado no formulario
         usuario = Usuario.query.filter_by(email=email).first()
         # se existir usuario e se a senha digitada no formulario for igual a senha no meu banco de dados, vou fazer login
+        # check_senha(senha): é um metodo da classe Usuario, que verifica a senha do usuario armazenado no banco de dados se cooresponde a senha de usuario que o cara digitou no formulario
         if usuario and usuario.check_senha(senha):
             login_user(usuario, remember=lembrar_dados)
             flash('Login Feito com Sucesso', 'alert-success')
@@ -32,9 +36,6 @@ def login():
         else:
             flash('Email ou Senha Incoretos', 'alert-danger')
     return render_template('login.html', form=form)
-
-
-
 
 
 @app.route('/criarconta', methods=['GET', 'POST'])
@@ -50,6 +51,7 @@ def criar_conta():
 
         usuario = Usuario(username=username, email=email)
         # adicionando a senha no banco de dados mais só que criptografada
+        # set_senha(senha) é um metodo da classe Usuario que criptografa a senha do usuario
         usuario.set_senha(senha)
 
         database.session.add(usuario)
@@ -68,6 +70,7 @@ def sair():
     flash('Logout feito com Successo', 'alert-info')
     return redirect(url_for('homepage'))
 
+
 @app.route('/perfil')
 @login_required
 def perfil():
@@ -80,7 +83,9 @@ def criar_post():
     form = FormCriarPost()
 
     if form.validate_on_submit():
+        # pegando a imagem
         imagem = form.imagem.data
+        # tornando o nome da imagem seguro
         nome_seguro = secure_filename(imagem.filename)
         # os.path.abspath(os.path.dirname(__file__)) caminho do meu projeto onde está o routes.py
         caminho = os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER'], nome_seguro)
@@ -97,9 +102,11 @@ def criar_post():
     return render_template('create_post.html', form=form)
 
 
+
 @app.route('/detalhes/<post_id>')
 def detalhes_post(post_id):
     post = Post.query.get_or_404(post_id)
+    # formulario de deletar o post
     delete_form = DeleteForm()
     return render_template('detalhes_post.html', post=post, title=post.titulo, delete_form=delete_form)
 
@@ -109,6 +116,7 @@ def detalhes_post(post_id):
 def editar_perfil(usuario_id):
     usuario = Usuario.query.get_or_404(usuario_id)
 
+    # para garantir que o usuario nao consiga editar o perfil de outra pessoa
     if usuario.id != current_user.id:
         # flash('Você não tem permissão para editar este perfil.', 'alert-danger')
         # return redirect(url_for('homepage'))
@@ -119,12 +127,14 @@ def editar_perfil(usuario_id):
     if form.validate_on_submit():
         usuario.username = form.username.data
         usuario.email = form.email.data
+        senha = form.senha.data
         # se o usuario digitou uma senha
         if form.senha.data:
-            usuario.set_senha(form.senha.data)
+            # adicionar a senha do usuario no banco de dados o que criptografada
+            usuario.set_senha(senha)
         database.session.commit()
         flash('Seu perfil foi atualizado com sucesso!', 'alert-success')
-        return redirect(url_for('homepage'))
+        return redirect(url_for('perfil'))
 
     # preencher os campos automaticamente
     elif request.method == 'GET':
@@ -133,10 +143,13 @@ def editar_perfil(usuario_id):
 
     return render_template('editar_perfil.html', form=form)
 
+
+
 @app.route("/post/<int:post_id>/edit", methods=['GET', 'POST'])
 @login_required
 def edit_post(post_id):
     post = Post.query.get_or_404(post_id)
+    # para garantir que o usuario nao edite perfiil de outra pedsoa
     if post.autor != current_user:
         abort(403)
     form = FormEditPost()
@@ -168,6 +181,7 @@ def delete_post(post_id):
 @app.route("/my_posts")
 @login_required
 def my_posts():
+    # pegando todos os post do usuario atual
     posts = Post.query.filter_by(autor=current_user).all()
     delete_form = DeleteForm()
     return render_template('my_posts.html', posts=posts, delete_form=delete_form)
@@ -194,6 +208,7 @@ def follow(username):
     database.session.commit()
     flash(f'You are now following {username}!', 'alert-success')
     return redirect(url_for('user_profile', username=username))
+
 
 @app.route("/unfollow/<username>")
 @login_required
