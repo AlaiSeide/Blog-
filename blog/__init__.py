@@ -3,7 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Blog.db'
+# ip integra
+localhost =  '192.168.220.5'
+# sqlite:///Blog.db
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://alaiseide:Flashreverso2020..@{localhost}/blog'
 app.config['SECRET_KEY'] = '9b4f2d8050ae28c1b0354f4bd7aa8e62'
 app.config['UPLOAD_FOLDER'] = 'static/images'
 login_manager = LoginManager(app)
